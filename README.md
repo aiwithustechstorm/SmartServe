@@ -450,5 +450,5 @@ CORS_ORIGINS=*
 ---
 
 <p align="center">
-  Built with ❤️ by <b>AI Maestros</b> for TechStorm 2026
+  Built with ❤️ by <b>AI Maestros</b> for AI_With_Us TechStorm 2026
 </p>
