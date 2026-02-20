@@ -5,7 +5,9 @@ backend/venv/
 
 # Environment
 backend/.env
-.env
+frontend/.env
+!frontend/.env.production
+!frontend/.env.example
 
 # Build output
 frontend/dist/
