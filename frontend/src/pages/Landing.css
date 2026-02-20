@@ -164,7 +164,7 @@
 /* Hero Visual */
 .hero__visual {
   position: relative;
-  height: 400px;
+  height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -200,22 +200,45 @@
 }
 
 .hero__card--1 {
-  top: 30px;
-  right: 20px;
+  top: 0;
+  left: 5%;
   animation-delay: 0s;
 }
 
 .hero__card--2 {
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  animation-delay: 2s;
+  top: 0;
+  right: 5%;
+  animation-delay: 1.5s;
 }
 
 .hero__card--3 {
-  bottom: 40px;
-  right: 40px;
+  top: 35%;
+  left: 0;
+  animation-delay: 3s;
+}
+
+.hero__card--4 {
+  top: 35%;
+  right: 0;
+  animation-delay: 0.8s;
+}
+
+.hero__card--5 {
+  top: 18%;
+  left: 35%;
+  animation-delay: 2.5s;
+}
+
+.hero__card--6 {
+  bottom: 30px;
+  left: 8%;
   animation-delay: 4s;
+}
+
+.hero__card--7 {
+  bottom: 30px;
+  right: 8%;
+  animation-delay: 2s;
 }
 
 @keyframes float {

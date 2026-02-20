@@ -110,24 +110,52 @@ export default function Landing() {
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="hero__card hero__card--1">
-              <span>🍔</span>
+              <span role="img" aria-label="pot of food">{'🍲'}</span>
               <div>
-                <strong>Classic Burger</strong>
-                <small>₹149</small>
+                <strong>Veg Biryani</strong>
+                <small>{'\u20B9'}120</small>
               </div>
             </div>
             <div className="hero__card hero__card--2">
-              <span>🍕</span>
+              <span role="img" aria-label="coffee">{'\u2615'}</span>
               <div>
-                <strong>Margherita Pizza</strong>
-                <small>₹199</small>
+                <strong>Cold Coffee</strong>
+                <small>{'\u20B9'}40</small>
               </div>
             </div>
             <div className="hero__card hero__card--3">
-              <span>☕</span>
+              <span role="img" aria-label="fries">{'\uD83C\uDF5F'}</span>
               <div>
-                <strong>Cold Brew</strong>
-                <small>₹89</small>
+                <strong>Fries</strong>
+                <small>{'\u20B9'}20</small>
+              </div>
+            </div>
+            <div className="hero__card hero__card--4">
+              <span role="img" aria-label="burrito">{'🌯'}</span>
+              <div>
+                <strong>Frankie</strong>
+                <small>{'\u20B9'}60</small>
+              </div>
+            </div>
+            <div className="hero__card hero__card--5">
+              <span role="img" aria-label="bento box">{'🍱'}</span>
+              <div>
+                <strong>Full Meal</strong>
+                <small>{'\u20B9'}80</small>
+              </div>
+            </div>
+            <div className="hero__card hero__card--6">
+              <span role="img" aria-label="mate">{'🧉'}</span>
+              <div>
+                <strong>Mango Lassi</strong>
+                <small>{'\u20B9'}50</small>
+              </div>
+            </div>
+            <div className="hero__card hero__card--7">
+              <span role="img" aria-label="noodles">{'\uD83C\uDF5C'}</span>
+              <div>
+                <strong>Veg Noodles</strong>
+                <small>{'\u20B9'}70</small>
               </div>
             </div>
             <div className="hero__glow" />
