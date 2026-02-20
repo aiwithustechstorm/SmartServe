@@ -1,0 +1,24 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: smartserve-api
+    runtime: python
+    region: singapore   # closest to India
+    rootDir: backend
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: gunicorn app:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.8"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: FLASK_DEBUG
+        value: "False"
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: SUPABASE_URL
+        sync: false        # set manually in Render dashboard
+      - key: SUPABASE_KEY
+        sync: false        # set manually in Render dashboard

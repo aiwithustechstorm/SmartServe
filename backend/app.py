@@ -58,7 +58,9 @@ def create_app(config_class=Config) -> Flask:
     return app
 
 
+# ── WSGI entry point (used by gunicorn: gunicorn app:application) ────
+application = create_app()
+
 # ── Run directly ────────────────────────────────────────────────────
 if __name__ == "__main__":
-    application = create_app()
     application.run(host="0.0.0.0", port=5000, debug=Config.DEBUG)
