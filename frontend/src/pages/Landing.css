@@ -1,17 +1,18 @@
 /* ---- Landing Page ---- */
 
 .landing-logo {
-  height: 120px;
+  height: 280px;
   width: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  display: block;
 }
 
 /* Hero */
 .hero {
   position: relative;
-  min-height: 92vh;
+  min-height: 88vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   overflow: hidden;
 }
 
@@ -47,13 +48,14 @@
   align-items: center;
   position: relative;
   z-index: 1;
-  padding: 4rem 0;
+  padding: 0.5rem 0 4rem;
 }
 
 .hero__content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
+  align-items: flex-start;
 }
 
 .hero__tag {

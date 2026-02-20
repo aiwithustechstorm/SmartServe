@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 90px;
+  height: 64px;
 }
 
 .user-header__logo {
@@ -30,8 +30,10 @@
 }
 
 .logo-img {
-  height: 70px;
+  height: 160px;
   width: auto;
+  position: relative;
+  z-index: 10;
 }
 
 .logo-accent {
