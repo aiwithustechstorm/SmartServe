@@ -1,0 +1,231 @@
+/* ---- Admin Foods ---- */
+.admin-foods__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.admin-foods__empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--clr-text-secondary);
+}
+
+.admin-foods__empty span {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.admin-foods__empty p {
+  margin-bottom: 1rem;
+}
+
+/* Table */
+.admin-table-wrap {
+  overflow-x: auto;
+  background: var(--clr-bg-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table thead {
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.admin-table th {
+  padding: 0.85rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-table td {
+  padding: 0.85rem 1rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tr:hover td {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.food-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.food-cell__img {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--clr-bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.food-cell__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.food-cell strong {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.food-cell small {
+  color: var(--clr-text-muted);
+  font-size: 0.75rem;
+}
+
+.food-category-tag {
+  padding: 0.2rem 0.5rem;
+  background: var(--clr-bg-elevated);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.food-price {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--clr-accent);
+}
+
+.food-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--clr-bg-elevated);
+  border: 1px solid var(--clr-border);
+  border-radius: 12px;
+  transition: all var(--duration-normal) var(--ease-out);
+  cursor: pointer;
+}
+
+.toggle-switch--on {
+  background: var(--clr-accent);
+  border-color: var(--clr-accent);
+}
+
+.toggle-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform var(--duration-normal) var(--ease-spring);
+}
+
+.toggle-switch--on .toggle-switch__thumb {
+  transform: translateX(20px);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 300;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  max-width: 92vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--clr-bg-secondary);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  z-index: 301;
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal__header h3 {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+}
+
+.modal__header button {
+  font-size: 1.2rem;
+  color: var(--clr-text-muted);
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modal__field label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--clr-text-secondary);
+}
+
+.modal__field textarea.input-field {
+  resize: vertical;
+}
+
+.modal__field--inline {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}

@@ -1,0 +1,148 @@
+/* ---- Admin Orders ---- */
+.admin-orders__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.admin-orders__filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.filter-count {
+  background: rgba(0, 0, 0, 0.08);
+  padding: 0 0.4rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  margin-left: 0.25rem;
+}
+
+.admin-orders__empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--clr-text-secondary);
+}
+
+.admin-orders__empty span {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.admin-orders__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-order-card {
+  background: var(--clr-bg-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  transition: border-color var(--duration-normal) var(--ease-out);
+}
+
+.admin-order-card:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.admin-order-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-order-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-order-card__id {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.admin-order-card__date {
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+}
+
+.admin-order-card__user {
+  padding: 0.15rem 0.5rem;
+  background: var(--clr-bg-elevated);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: var(--clr-text-secondary);
+}
+
+.admin-order-card__total {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--clr-accent);
+}
+
+.admin-order-card__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.admin-order-card__note {
+  font-size: 0.8rem;
+  color: var(--clr-text-secondary);
+  padding: 0.5rem 0.75rem;
+  background: var(--clr-bg-elevated);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.75rem;
+}
+
+.admin-order-card__note strong {
+  color: var(--clr-text-primary);
+  margin-right: 0.25rem;
+}
+
+.admin-order-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.admin-order-card__status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
+}
+
+.admin-order-advance-btn {
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.admin-order-card__done {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #27ae60;
+}

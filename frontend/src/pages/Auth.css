@@ -1,0 +1,224 @@
+/* ---- Auth Pages (Login / Register) ---- */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.auth-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.auth-bg__gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 30% 20%,
+      rgba(232, 101, 46, 0.1),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 70% 80%,
+      rgba(210, 80, 20, 0.06),
+      transparent
+    );
+}
+
+.auth-bg__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(232, 101, 46, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 101, 46, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.auth-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  padding: 1.5rem;
+}
+
+.auth-card {
+  background: var(--clr-bg-secondary);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.auth-card__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.auth-logo-img {
+  height: 90px;
+  width: auto;
+}
+
+.auth-logo span {
+  color: var(--clr-accent);
+}
+
+.auth-card__header h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.auth-card__header p {
+  font-size: 0.875rem;
+  color: var(--clr-text-secondary);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-field {
+  position: relative;
+}
+
+.auth-field__icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--clr-text-muted);
+  font-size: 1.1rem;
+  z-index: 1;
+}
+
+.auth-field .input-field {
+  padding-left: 2.75rem;
+}
+
+.auth-error {
+  padding: 0.75rem 1rem;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.2);
+  border-radius: var(--radius-md);
+  color: var(--clr-danger);
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+}
+
+.auth-otp-section {
+  text-align: center;
+}
+
+.auth-otp-info {
+  font-size: 0.875rem;
+  color: var(--clr-text-secondary);
+  margin-bottom: 1rem;
+}
+
+.auth-otp-info strong {
+  color: var(--clr-accent);
+}
+
+.otp-input {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  letter-spacing: 0.5em;
+  padding: 1rem !important;
+}
+
+.auth-card__footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--clr-text-secondary);
+}
+
+.auth-card__footer a {
+  color: var(--clr-accent);
+  font-weight: 600;
+}
+
+.auth-card__footer a:hover {
+  text-decoration: underline;
+}
+
+/* Admin login page styles */
+.auth-bg__gradient--admin {
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 30% 20%,
+      rgba(27, 58, 92, 0.1),
+      transparent
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 70% 80%,
+      rgba(27, 58, 92, 0.06),
+      transparent
+    );
+}
+
+.auth-card--admin {
+  border-top: 3px solid var(--clr-accent);
+}
+
+.auth-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(27, 58, 92, 0.08);
+  color: var(--clr-accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--radius-xl);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+
+.auth-admin-badge svg {
+  font-size: 1rem;
+}
+
+.auth-dev-otp {
+  padding: 0.6rem 1rem;
+  background: rgba(46, 204, 113, 0.1);
+  border: 1px solid rgba(46, 204, 113, 0.2);
+  border-radius: var(--radius-md);
+  color: #27ae60;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.auth-success {
+  padding: 0.75rem 1rem;
+  background: rgba(46, 204, 113, 0.1);
+  border: 1px solid rgba(46, 204, 113, 0.2);
+  border-radius: var(--radius-md);
+  color: #27ae60;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.75rem;
+  }
+}
