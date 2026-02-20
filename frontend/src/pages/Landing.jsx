@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { HiOutlineArrowRight, HiOutlineLightningBolt, HiOutlineClock, HiOutlineShieldCheck } from 'react-icons/hi';
 import { useAuth } from '../context/AuthContext';
+import CoverCurtain from '../components/CoverCurtain';
 import './Landing.css';
 
 const features = [
@@ -36,6 +37,7 @@ export default function Landing() {
   const { isAuthenticated } = useAuth();
 
   return (
+    <CoverCurtain>
     <div className="landing">
       {/* Hero */}
       <section className="hero">
@@ -175,5 +177,6 @@ export default function Landing() {
         </div>
       </section>
     </div>
+    </CoverCurtain>
   );
 }

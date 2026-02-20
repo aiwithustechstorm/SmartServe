@@ -1,0 +1,238 @@
+/* ============================================
+   CoverCurtain — Cinematic Dark-Luxury Splash
+   ============================================ */
+
+/* Fullscreen overlay */
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0B0F19;
+  overflow: hidden;
+}
+
+/* Atmospheric particle grid behind everything */
+.curtain__atmosphere {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(147, 130, 220, 0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.curtain__stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1px 1px at 85% 80%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 15% 75%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1.5px 1.5px at 60% 85%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 40% 35%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1px 1px at 90% 15%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 25% 90%, rgba(255,255,255,0.2), transparent);
+  animation: starsTwinkle 4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes starsTwinkle {
+  0%   { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* ---- Logo ---- */
+.curtain__logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.curtain__logo {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 60px rgba(59, 130, 246, 0.25));
+  position: relative;
+  z-index: 2;
+}
+
+/* Breathing glow ring behind logo */
+.curtain__glow {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+  animation: breathe 3s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* Outer ring */
+.curtain__ring {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 1px solid rgba(59, 130, 246, 0.08);
+  animation: ringPulse 4s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes ringPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.6;
+  }
+}
+
+/* ---- Typography ---- */
+.curtain__text {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.curtain__presented {
+  display: block;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 1rem;
+}
+
+.curtain__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.curtain__title-accent {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa, #93c5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.curtain__divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+  margin: 1.25rem auto;
+}
+
+.curtain__subtitle {
+  font-family: 'Space Grotesk', 'Courier New', monospace;
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.curtain__year {
+  color: #3b82f6;
+}
+
+/* Micro-label at bottom */
+.curtain__footer {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 2;
+}
+
+.curtain__team {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* ---- Horizontal accent lines ---- */
+.curtain__line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.15), transparent);
+  z-index: 1;
+}
+
+.curtain__line--top {
+  top: 30%;
+  left: 10%;
+  right: 10%;
+}
+
+.curtain__line--bottom {
+  bottom: 30%;
+  left: 15%;
+  right: 15%;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  .curtain__logo {
+    width: 150px;
+    height: 150px;
+  }
+
+  .curtain__glow {
+    width: 220px;
+    height: 220px;
+  }
+
+  .curtain__ring {
+    width: 260px;
+    height: 260px;
+  }
+
+  .curtain__presented {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+  }
+
+  .curtain__subtitle {
+    letter-spacing: 0.15em;
+  }
+
+  .curtain__footer {
+    bottom: 1.5rem;
+  }
+}
