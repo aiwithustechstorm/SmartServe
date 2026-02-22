@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="frontend/public/logo.png" alt="SmartServe Logo" width="180" />
+  <img src="frontend/public/logo.png" alt="SmartServe Logo" width="180" href="https://www.aiwithus.tech/" />
 </p>
 
-<h1 align="center" href="https://www.aiwithus.tech/">SmartServe — Campus Dining Solutions</h1>
+<h1 align="center">SmartServe — Campus Dining Solutions</h1>
 
 <p align="center">
   <b>AI WITH US • TechStorm 2026</b><br/>
