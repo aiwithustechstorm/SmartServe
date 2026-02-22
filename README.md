@@ -440,7 +440,7 @@ CORS_ORIGINS=*
 <table>
   <tr>
     <td align="center">
-      <b>AI Maestros</b><br/>
+      <b>AI_With_Us</b><br/>
       TechStorm 2026<br/>
       <a href="mailto:aiwithustechstorm2026@gmail.com">aiwithustechstorm2026@gmail.com</a>
     </td>
@@ -450,5 +450,5 @@ CORS_ORIGINS=*
 ---
 
 <p align="center">
-  Built with ❤️ by <b>AI Maestros</b> for AI_With_Us TechStorm 2026
+  Built with ❤️ by <b>AI_With_Uss</b>for JGTechStorm 2026
 </p>
