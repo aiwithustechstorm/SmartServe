@@ -459,5 +459,5 @@ CORS_ORIGINS=*
 ---
 
 <p align="center">
-  Built with ❤️ by <b>AI_With_Uss</b>for JGTechStorm 2026
+  Built with ❤️ by <b>AI_With_Us</b> for JGTechStorm 2026
 </p>
