@@ -2,10 +2,10 @@
   <img src="frontend/public/logo.png" alt="SmartServe Logo" width="180" />
 </p>
 
-<h1 align="center">SmartServe — Campus Dining Solutions</h1>
+<h1 align="center" href="https://www.aiwithus.tech/">SmartServe — Campus Dining Solutions</h1>
 
 <p align="center">
-  <b>AI Maestros • TechStorm 2026</b><br/>
+  <b>AI WITH US • TechStorm 2026</b><br/>
   A full-stack smart canteen management system for college campuses
 </p>
 
