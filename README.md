@@ -429,18 +429,17 @@ CORS_ORIGINS=*
 
 > *Add screenshots of your Landing page, Menu, Checkout, Admin Dashboard, and Admin Orders here.*
 
-| Landing | FrontPage | Menu | Cart | Checkout | Order History| Admin Dashboard | Admin Controls | Admin OderManage| 
-|---|---|---|---|---|---|---|---|---|
-| ![Landing](https://github.com/aiwithustechstorm/SmartServe/blob/main/Landing%20Page.png) | 
-![FrontPage](https://github.com/aiwithustechstorm/SmartServe/blob/main/Front%20Page.png) |
-![Menu](https://github.com/aiwithustechstorm/SmartServe/blob/main/menu.png) |
-![Cart](https://github.com/aiwithustechstorm/SmartServe/blob/main/Cart.png) | 
-![Checkout](https://github.com/aiwithustechstorm/SmartServe/blob/main/Checkout.png)|
-![Order_History](https://github.com/aiwithustechstorm/SmartServe/blob/main/Order.png) |
-![Admin_Dashboard](https://github.com/aiwithustechstorm/SmartServe/blob/main/Admin%20Dash.png) |
-![Admin_Controls](https://github.com/aiwithustechstorm/SmartServe/blob/main/Admin%20control.png)|
-![Admin_OderManage](https://github.com/aiwithustechstorm/SmartServe/blob/main/Admin%20Manage%20Order.png)|
-
+| Landing | FrontPage | Menu | Cart | Checkout | Order History | Admin Dashboard | Admin Controls | Admin Order Manage |
+|----------|------------|--------|--------|------------|----------------|------------------|------------------|--------------------|
+| <img src="https://github.com/aiwithustechstorm/SmartServe/blob/main/Landing%20Page.png?raw=true" width="200"/> | 
+<img src="https://github.com/aiwithustechstorm/SmartServe/blob/main/Front%20Page.png?raw=true" width="200"/> | 
+<img src="https://github.com/aiwithustechstorm/SmartServe/blob/main/menu.png?raw=true" width="200"/> | 
+<img src="https://github.com/aiwithustechstorm/SmartServe/blob/main/Cart.png?raw=true" width="200"/> | 
+<img src="https://github.com/aiwithustechstorm/SmartServe/blob/main/Checkout.png?raw=true" width="200"/> | 
+<img src="https://github.com/aiwithustechstorm/SmartServe/blob/main/Order.png?raw=true" width="200"/> | 
+<img src="https://github.com/aiwithustechstorm/SmartServe/blob/main/Admin%20Dash.png?raw=true" width="200"/> | 
+<img src="https://github.com/aiwithustechstorm/SmartServe/blob/main/Admin%20control.png?raw=true" width="200"/> | 
+<img src="https://github.com/aiwithustechstorm/SmartServe/blob/main/Admin%20Manage%20Order.png?raw=true" width="200"/> |
 ---
 
 ## 👥 Team
