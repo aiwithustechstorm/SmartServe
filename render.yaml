@@ -22,3 +22,8 @@ services:
         sync: false        # set manually in Render dashboard
       - key: SUPABASE_KEY
         sync: false        # set manually in Render dashboard
+      - key: RENDER_EXTERNAL_URL
+        fromService:
+          type: web
+          name: smartserve-api
+          property: host    # auto-resolved to https://<service>.onrender.com

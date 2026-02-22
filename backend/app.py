@@ -61,6 +61,10 @@ def create_app(config_class=Config) -> Flask:
 # ── WSGI entry point (used by gunicorn: gunicorn app:application) ────
 application = create_app()
 
+# ── Keep-alive self-ping (prevents Render free-tier sleep) ──────────
+from utils.keep_alive import start_keep_alive
+start_keep_alive(application)
+
 # ── Run directly ────────────────────────────────────────────────────
 if __name__ == "__main__":
     application.run(host="0.0.0.0", port=5000, debug=Config.DEBUG)

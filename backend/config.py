@@ -24,3 +24,7 @@ class Config:
 
     # CORS
     CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*")
+
+    # Keep-alive self-ping (Render free tier sleeps after 15 min)
+    RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL", "")  # e.g. https://smartserve-api.onrender.com
+    KEEP_ALIVE_INTERVAL = int(os.getenv("KEEP_ALIVE_INTERVAL", "840"))  # seconds (default 14 min)
