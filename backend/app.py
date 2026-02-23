@@ -56,6 +56,17 @@ def create_app(config_class=Config) -> Flask:
     def health():
         return {"status": "ok"}
 
+    # ── Debug: check email config (remove after testing) ────────────
+    @app.route("/api/debug/email-config")
+    def debug_email_config():
+        resend_key = app.config.get("RESEND_API_KEY", "")
+        return {
+            "resend_key_set": bool(resend_key),
+            "resend_key_prefix": resend_key[:8] + "..." if len(resend_key) > 8 else "(empty)",
+            "resend_from": app.config.get("RESEND_FROM", "(not set)"),
+            "render_url": app.config.get("RENDER_EXTERNAL_URL", "(not set)"),
+        }
+
     # ── Serve logo publicly (for email branding) ────────────────────
     @app.route("/api/logo.png")
     def serve_logo():
