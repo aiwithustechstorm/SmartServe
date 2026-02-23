@@ -27,3 +27,14 @@ services:
           type: web
           name: smartserve-api
           property: host    # auto-resolved to https://<service>.onrender.com
+      # SMTP (for OTP emails) — set these in the Render dashboard
+      - key: SMTP_HOST
+        value: "smtp.gmail.com"
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false        # set manually in Render dashboard
+      - key: SMTP_PASSWORD
+        sync: false        # set manually in Render dashboard
+      - key: SMTP_FROM_NAME
+        value: "SmartServe"

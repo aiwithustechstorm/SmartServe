@@ -1,6 +1,7 @@
 """SmartCanteen — Flask application factory."""
 
-from flask import Flask
+from flask import Flask, send_from_directory
+import os
 
 from config import Config
 from extensions import jwt, cors, init_supabase
@@ -54,6 +55,12 @@ def create_app(config_class=Config) -> Flask:
     @app.route("/api/health")
     def health():
         return {"status": "ok"}
+
+    # ── Serve logo publicly (for email branding) ────────────────────
+    @app.route("/api/logo.png")
+    def serve_logo():
+        logo_dir = os.path.join(app.root_path, "..", "frontend", "public")
+        return send_from_directory(logo_dir, "logo.png", mimetype="image/png")
 
     return app
 

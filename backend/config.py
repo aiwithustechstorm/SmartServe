@@ -25,6 +25,13 @@ class Config:
     # CORS
     CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*")
 
+    # SMTP / Email (for sending OTP)
+    SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USER = os.getenv("SMTP_USER", "")        # e.g. yourapp@gmail.com
+    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")  # App password (not your login password)
+    SMTP_FROM_NAME = os.getenv("SMTP_FROM_NAME", "SmartServe")
+
     # Keep-alive self-ping (Render free tier sleeps after 15 min)
     RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL", "")  # e.g. https://smartserve-api.onrender.com
     KEEP_ALIVE_INTERVAL = int(os.getenv("KEEP_ALIVE_INTERVAL", "840"))  # seconds (default 14 min)

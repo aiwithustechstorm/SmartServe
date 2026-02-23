@@ -9,7 +9,6 @@ export default function Login() {
   const [step, setStep] = useState('email'); // email | otp
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
-  const [devOtp, setDevOtp] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login, verifyOtp } = useAuth();
@@ -22,10 +21,7 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      const res = await login({ email });
-      // Backend returns OTP in dev mode for convenience
-      const otpFromServer = res?.data?.otp;
-      if (otpFromServer) setDevOtp(otpFromServer);
+      await login({ email });
       setStep('otp');
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -94,13 +90,8 @@ export default function Login() {
               {error && <div className="auth-error">{error}</div>}
               <div className="auth-otp-section">
                 <p className="auth-otp-info">
-                  We sent an OTP to <strong>{email}</strong>
+                  We sent an OTP to <strong>{email}</strong>. Check your inbox.
                 </p>
-                {devOtp && (
-                  <p className="auth-dev-otp">
-                    Dev OTP: <strong>{devOtp}</strong>
-                  </p>
-                )}
                 <div className="auth-field">
                   <input
                     type="text"

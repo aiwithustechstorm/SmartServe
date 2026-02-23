@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from flask_jwt_extended import create_access_token
 
 from extensions import get_supabase
+from utils.email import send_otp_email
 
 # In-memory OTP store: { email: { otp, expires_at } }
 _otp_store: dict = {}
@@ -53,9 +54,9 @@ def send_otp(email: str) -> str:
         "otp": otp,
         "expires_at": datetime.utcnow() + timedelta(minutes=OTP_EXPIRY_MINUTES),
     }
-    # In production this would be sent via SMS/email.
-    # For dev/demo purposes the OTP is returned in the API response.
-    return otp
+    # Send OTP via email
+    send_otp_email(email, otp)
+    return True
 
 
 # ── Verify OTP ──────────────────────────────────────────────────────

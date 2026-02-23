@@ -38,13 +38,14 @@ def login():
         return error_response("Validation failed", 422, err.messages)
 
     try:
-        otp = send_otp(data["email"])
-        # In production the OTP would NOT be returned — it is included for dev/demo.
+        send_otp(data["email"])
         return success_response(
-            {"otp": otp}, "OTP sent successfully (check response for demo)"
+            {"email": data["email"]}, "OTP sent to your email"
         )
     except ValueError as e:
         return error_response(str(e), 404)
+    except RuntimeError as e:
+        return error_response(str(e), 503)
     except Exception as e:
         return error_response(str(e), 500)
 

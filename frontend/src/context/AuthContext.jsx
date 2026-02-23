@@ -38,7 +38,6 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (credentials) => {
     const res = await authAPI.login(credentials);
-    // Backend returns OTP in dev mode — store it for the flow
     return res.data;
   }, []);
 
