@@ -25,7 +25,11 @@ class Config:
     # CORS
     CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*")
 
-    # SMTP / Email (for sending OTP)
+    # Email — Resend (HTTP API, works on Render) or SMTP (local dev)
+    RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")  # get from resend.com
+    RESEND_FROM = os.getenv("RESEND_FROM", "")        # e.g. SmartServe <noreply@yourdomain.com>
+
+    # SMTP fallback (local dev only — blocked on Render)
     SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
     SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
     SMTP_USER = os.getenv("SMTP_USER", "")        # e.g. yourapp@gmail.com

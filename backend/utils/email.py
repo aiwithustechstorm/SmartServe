@@ -1,6 +1,14 @@
-"""Email utility — send premium branded OTP emails via SMTP."""
+"""Email utility — send premium branded OTP emails.
 
+Supports two providers:
+  1. Resend (HTTP API) — works everywhere including Render (recommended)
+  2. SMTP            — fallback for local development
+"""
+
+import json
 import smtplib
+import urllib.request
+import urllib.error
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
@@ -122,18 +130,65 @@ def _build_html(otp: str, logo_url: str) -> str:
 </html>"""
 
 
-# ── Send email ──────────────────────────────────────────────────────
+# ── Send via Resend HTTP API ────────────────────────────────────────
+def _send_via_resend(api_key, from_addr, to_email, subject, html, text):
+    """Send email using Resend REST API (HTTPS, never blocked)."""
+    payload = json.dumps({
+        "from": from_addr,
+        "to": [to_email],
+        "subject": subject,
+        "html": html,
+        "text": text,
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            current_app.logger.info(f"Resend response: {resp.status}")
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")
+        current_app.logger.error(f"Resend API error {exc.code}: {body}")
+        raise RuntimeError("Could not send OTP email via Resend.") from exc
+
+
+# ── Send via SMTP (local dev fallback) ──────────────────────────────
+def _send_via_smtp(smtp_host, smtp_port, smtp_user, smtp_pass, from_addr, to_email, subject, html, text):
+    """Send email via SMTP — works locally, blocked on Render."""
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = from_addr
+    msg["To"] = to_email
+    msg.attach(MIMEText(text, "plain", "utf-8"))
+    msg.attach(MIMEText(html, "html", "utf-8"))
+
+    if smtp_port == 465:
+        with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15) as server:
+            server.login(smtp_user, smtp_pass)
+            server.sendmail(smtp_user, to_email, msg.as_string())
+    else:
+        with smtplib.SMTP(smtp_host, smtp_port, timeout=15) as server:
+            server.ehlo()
+            server.starttls()
+            server.ehlo()
+            server.login(smtp_user, smtp_pass)
+            server.sendmail(smtp_user, to_email, msg.as_string())
+
+
+# ── Public helper ───────────────────────────────────────────────────
 def send_otp_email(to_email: str, otp: str) -> None:
     """Send a premium branded 6-digit OTP email.
 
-    Uses SMTP settings from Flask app config:
-        SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, SMTP_FROM_NAME
+    Uses Resend (HTTP) if RESEND_API_KEY is set, otherwise falls back to SMTP.
     """
     cfg = current_app.config
-    smtp_host = cfg.get("SMTP_HOST", "smtp.gmail.com")
-    smtp_port = cfg.get("SMTP_PORT", 587)
-    smtp_user = cfg.get("SMTP_USER", "")
-    smtp_pass = cfg.get("SMTP_PASSWORD", "")
     from_name = cfg.get("SMTP_FROM_NAME", "SmartServe")
 
     # Build logo URL from backend's public URL
@@ -142,20 +197,8 @@ def send_otp_email(to_email: str, otp: str) -> None:
         base_url = f"https://{base_url}"
     logo_url = f"{base_url.rstrip('/')}/api/logo.png"
 
-    if not smtp_user or not smtp_pass:
-        current_app.logger.warning(
-            "SMTP_USER / SMTP_PASSWORD not configured — OTP email NOT sent. "
-            "Set them in your .env file."
-        )
-        return
-
-    # Simple alternative MIME — zero attachments
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"Your SmartServe Login Code: {otp}"
-    msg["From"] = f"{from_name} <{smtp_user}>"
-    msg["To"] = to_email
-
-    # Plain text fallback
+    subject = f"Your SmartServe Login Code: {otp}"
+    html = _build_html(otp, logo_url)
     text = (
         f"SmartServe — Login Code\n"
         f"{'=' * 30}\n\n"
@@ -164,26 +207,36 @@ def send_otp_email(to_email: str, otp: str) -> None:
         f"Never share this code with anyone.\n\n"
         f"— SmartServe Team\n"
     )
-    msg.attach(MIMEText(text, "plain", "utf-8"))
 
-    # Premium HTML with hosted logo
-    html = _build_html(otp, logo_url)
-    msg.attach(MIMEText(html, "html", "utf-8"))
+    # ── Strategy 1: Resend (HTTP API — works on Render) ─────────
+    resend_key = cfg.get("RESEND_API_KEY", "")
+    if resend_key:
+        resend_from = cfg.get("RESEND_FROM", f"{from_name} <onboarding@resend.dev>")
+        try:
+            _send_via_resend(resend_key, resend_from, to_email, subject, html, text)
+            current_app.logger.info(f"OTP email sent to {to_email} via Resend")
+            return
+        except Exception as exc:
+            current_app.logger.error(f"Resend failed for {to_email}: {exc}")
+            raise RuntimeError("Could not send OTP email. Please try again later.") from exc
 
-    # Send — use SSL (port 465) or STARTTLS (port 587) depending on config
+    # ── Strategy 2: SMTP (local dev fallback) ───────────────────
+    smtp_host = cfg.get("SMTP_HOST", "smtp.gmail.com")
+    smtp_port = cfg.get("SMTP_PORT", 465)
+    smtp_user = cfg.get("SMTP_USER", "")
+    smtp_pass = cfg.get("SMTP_PASSWORD", "")
+
+    if not smtp_user or not smtp_pass:
+        current_app.logger.warning(
+            "Neither RESEND_API_KEY nor SMTP credentials configured — "
+            "OTP email NOT sent."
+        )
+        return
+
+    from_addr = f"{from_name} <{smtp_user}>"
     try:
-        if smtp_port == 465:
-            with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15) as server:
-                server.login(smtp_user, smtp_pass)
-                server.sendmail(smtp_user, to_email, msg.as_string())
-        else:
-            with smtplib.SMTP(smtp_host, smtp_port, timeout=15) as server:
-                server.ehlo()
-                server.starttls()
-                server.ehlo()
-                server.login(smtp_user, smtp_pass)
-                server.sendmail(smtp_user, to_email, msg.as_string())
-        current_app.logger.info(f"OTP email sent to {to_email}")
+        _send_via_smtp(smtp_host, smtp_port, smtp_user, smtp_pass, from_addr, to_email, subject, html, text)
+        current_app.logger.info(f"OTP email sent to {to_email} via SMTP")
     except Exception as exc:
-        current_app.logger.error(f"Failed to send OTP email to {to_email}: {exc}")
+        current_app.logger.error(f"SMTP failed for {to_email}: {exc}")
         raise RuntimeError("Could not send OTP email. Please try again later.") from exc
