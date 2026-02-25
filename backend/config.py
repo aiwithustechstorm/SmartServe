@@ -36,6 +36,9 @@ class Config:
     SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")  # App password (not your login password)
     SMTP_FROM_NAME = os.getenv("SMTP_FROM_NAME", "SmartServe")
 
+    # Dev OTP — bypass real OTP for quick dev login (set DEV_OTP=true in .env)
+    DEV_OTP = os.getenv("DEV_OTP", "True").lower() in ("true", "1")
+
     # Keep-alive self-ping (Render free tier sleeps after 15 min)
     RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL", "")  # e.g. https://smartserve-api.onrender.com
     KEEP_ALIVE_INTERVAL = int(os.getenv("KEEP_ALIVE_INTERVAL", "840"))  # seconds (default 14 min)

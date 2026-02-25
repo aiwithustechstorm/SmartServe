@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 
 from flask_jwt_extended import create_access_token
 
+from flask import current_app
+
 from extensions import get_supabase
 from utils.email import send_otp_email
 
@@ -13,6 +15,7 @@ from utils.email import send_otp_email
 _otp_store: dict = {}
 
 OTP_EXPIRY_MINUTES = 5
+DEV_OTP_CODE = "000000"  # hardcoded dev OTP for quick login
 
 
 def _generate_otp(length: int = 6) -> str:
@@ -48,6 +51,15 @@ def send_otp(email: str) -> str:
     )
     if not user.data:
         raise ValueError("User not found")
+
+    # Dev mode: skip email, use hardcoded OTP "000000"
+    if current_app.config.get("DEV_OTP"):
+        _otp_store[email] = {
+            "otp": DEV_OTP_CODE,
+            "expires_at": datetime.utcnow() + timedelta(minutes=OTP_EXPIRY_MINUTES),
+        }
+        current_app.logger.info("[DEV] OTP for %s: %s", email, DEV_OTP_CODE)
+        return True
 
     otp = _generate_otp()
     _otp_store[email] = {
