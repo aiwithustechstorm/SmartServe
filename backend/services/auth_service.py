@@ -59,7 +59,7 @@ def send_otp(email: str) -> str:
             "expires_at": datetime.utcnow() + timedelta(minutes=OTP_EXPIRY_MINUTES),
         }
         current_app.logger.info("[DEV] OTP for %s: %s", email, DEV_OTP_CODE)
-        return True
+        return DEV_OTP_CODE  # return the code so the route can expose it
 
     otp = _generate_otp()
     _otp_store[email] = {
@@ -68,7 +68,7 @@ def send_otp(email: str) -> str:
     }
     # Send OTP via email
     send_otp_email(email, otp)
-    return True
+    return None  # no dev OTP to expose
 
 
 # ── Verify OTP ──────────────────────────────────────────────────────

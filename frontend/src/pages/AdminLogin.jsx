@@ -11,6 +11,7 @@ export default function AdminLogin() {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [devOtp, setDevOtp] = useState(null);
   const { login, verifyOtp, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -19,7 +20,12 @@ export default function AdminLogin() {
     setError('');
     setLoading(true);
     try {
-      await login({ email });
+      const res = await login({ email });
+      const code = res?.data?.dev_otp;
+      if (code) {
+        setOtp(code);
+        setDevOtp(code);
+      }
       setStep('otp');
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -96,9 +102,15 @@ export default function AdminLogin() {
             <form className="auth-form" onSubmit={handleVerifyOtp}>
               {error && <div className="auth-error">{error}</div>}
               <div className="auth-otp-section">
-                <p className="auth-otp-info">
-                  OTP sent to <strong>{email}</strong>. Check your inbox.
-                </p>
+                {devOtp ? (
+                  <p className="auth-otp-info" style={{ color: '#10b981', fontWeight: 600 }}>
+                    Dev mode — OTP auto-filled: <strong>{devOtp}</strong>. Just hit Verify!
+                  </p>
+                ) : (
+                  <p className="auth-otp-info">
+                    OTP sent to <strong>{email}</strong>. Check your inbox.
+                  </p>
+                )}
                 <div className="auth-field">
                   <input
                     type="text"
