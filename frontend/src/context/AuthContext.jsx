@@ -41,6 +41,11 @@ export function AuthProvider({ children }) {
     return res.data;
   }, []);
 
+  const adminLogin = useCallback(async (credentials) => {
+    const res = await authAPI.adminLogin(credentials);
+    return res.data;
+  }, []);
+
   const verifyOtp = useCallback(async (data) => {
     const res = await authAPI.verifyOtp(data);
     const token = res.data?.data?.access_token;
@@ -68,6 +73,7 @@ export function AuthProvider({ children }) {
         user,
         loading,
         login,
+        adminLogin,
         register,
         verifyOtp,
         logout,

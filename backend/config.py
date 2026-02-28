@@ -37,7 +37,7 @@ class Config:
     SMTP_FROM_NAME = os.getenv("SMTP_FROM_NAME", "SmartServe")
 
     # Dev OTP — bypass real OTP for quick dev login (set DEV_OTP=true in .env)
-    DEV_OTP = os.getenv("DEV_OTP", "True").lower() in ("true", "1")
+    DEV_OTP = os.getenv("DEV_OTP", "False").lower() in ("true", "1")
 
     # Keep-alive self-ping (Render free tier sleeps after 15 min)
     RENDER_EXTERNAL_URL = os.getenv("RENDER_EXTERNAL_URL", "")  # e.g. https://smartserve-api.onrender.com

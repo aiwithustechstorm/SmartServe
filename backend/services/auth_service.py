@@ -45,13 +45,34 @@ def send_otp(email: str) -> str:
     # Verify user exists
     user = (
         get_supabase().table("users")
-        .select("id, email")
+        .select("id, email, role")
         .eq("email", email)
         .execute()
     )
     if not user.data:
         raise ValueError("User not found")
 
+    return _generate_and_store_otp(email)
+
+
+def send_admin_otp(email: str) -> str:
+    """Generate an OTP only if the email belongs to an admin."""
+    user = (
+        get_supabase().table("users")
+        .select("id, email, role")
+        .eq("email", email)
+        .execute()
+    )
+    if not user.data:
+        raise ValueError("User not found")
+    if user.data[0].get("role") != "admin":
+        raise ValueError("This account does not have admin privileges")
+
+    return _generate_and_store_otp(email)
+
+
+def _generate_and_store_otp(email: str) -> str:
+    """Internal: generate OTP, store it, and email it."""
     # Dev mode: skip email, use hardcoded OTP "000000"
     if current_app.config.get("DEV_OTP"):
         _otp_store[email] = {

@@ -32,3 +32,5 @@ services:
         sync: false        # set manually in Render dashboard
       - key: RESEND_FROM
         value: "SmartServe <onboarding@resend.dev>"
+      - key: DEV_OTP
+        value: "false"

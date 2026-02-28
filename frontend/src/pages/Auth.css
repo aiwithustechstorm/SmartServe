@@ -133,6 +133,83 @@
   color: var(--clr-accent);
 }
 
+/* Individual OTP digit boxes */
+.otp-boxes {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.otp-box {
+  width: 48px;
+  height: 56px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--clr-text-primary);
+  background: var(--clr-bg-secondary);
+  border: 2px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  caret-color: var(--clr-accent);
+}
+
+.otp-box:focus {
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 0 3px rgba(232, 101, 46, 0.15);
+}
+
+.otp-box::placeholder {
+  color: var(--clr-text-muted);
+  opacity: 0.4;
+}
+
+/* Resend timer row */
+.otp-timer-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--clr-text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.otp-timer-row svg {
+  font-size: 1rem;
+  color: var(--clr-accent);
+}
+
+.otp-timer-row strong {
+  color: var(--clr-accent);
+  font-family: var(--font-mono);
+}
+
+.otp-resend-btn {
+  background: none;
+  border: none;
+  color: var(--clr-accent);
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+
+.otp-resend-btn:hover {
+  opacity: 0.8;
+}
+
+.otp-resend-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Legacy single otp-input (kept for Register or fallback) */
 .otp-input {
   text-align: center;
   font-family: var(--font-mono);
