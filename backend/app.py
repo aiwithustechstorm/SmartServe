@@ -56,7 +56,54 @@ def create_app(config_class=Config) -> Flask:
     def health():
         return {"status": "ok"}
 
-    # ── Debug: check email config (remove after testing) ────────────
+    # ── Debug: check Brevo config (REMOVE after testing) ────────────
+    @app.route("/api/debug-email-config")
+    def debug_email_config():
+        brevo_key = app.config.get("BREVO_API_KEY", "")
+        brevo_sender = app.config.get("BREVO_SENDER_EMAIL", "")
+        resend_key = app.config.get("RESEND_API_KEY", "")
+        return {
+            "brevo_key_set": bool(brevo_key),
+            "brevo_key_prefix": brevo_key[:12] + "..." if brevo_key else "",
+            "brevo_sender": brevo_sender,
+            "resend_key_set": bool(resend_key),
+            "resend_key_prefix": resend_key[:8] + "..." if resend_key else "",
+        }
+
+    # ── Debug: test send email (REMOVE after testing) ───────────────
+    @app.route("/api/debug-send-test", methods=["POST"])
+    def debug_send_test():
+        from flask import request as req
+        import json, urllib.request, urllib.error
+        data = req.get_json(force=True)
+        to_email = data.get("email", "")
+        brevo_key = app.config.get("BREVO_API_KEY", "")
+        brevo_sender = app.config.get("BREVO_SENDER_EMAIL", "")
+        if not brevo_key or not brevo_sender:
+            return {"error": "Brevo not configured", "brevo_key_set": bool(brevo_key), "brevo_sender": brevo_sender}, 500
+        payload = json.dumps({
+            "sender": {"name": "SmartServe", "email": brevo_sender},
+            "to": [{"email": to_email}],
+            "subject": "SmartServe Test Email",
+            "htmlContent": "<h2>Test from SmartServe</h2><p>If you see this, Brevo is working!</p>",
+            "textContent": "Test from SmartServe - Brevo is working!",
+        }).encode("utf-8")
+        rq = urllib.request.Request(
+            "https://api.brevo.com/v3/smtp/email",
+            data=payload,
+            headers={"api-key": brevo_key, "Content-Type": "application/json", "Accept": "application/json"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(rq, timeout=15) as resp:
+                body = resp.read().decode("utf-8", errors="replace")
+                return {"success": True, "status": resp.status, "response": body}
+        except urllib.error.HTTPError as exc:
+            body = exc.read().decode("utf-8", errors="replace")
+            return {"success": False, "status": exc.code, "response": body}, 502
+        except Exception as exc:
+            return {"success": False, "error": str(exc)}, 502
+
     # ── Serve logo publicly (for email branding) ────────────────────
     @app.route("/api/logo.png")
     def serve_logo():
