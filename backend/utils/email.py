@@ -210,6 +210,7 @@ def send_otp_email(to_email: str, otp: str) -> None:
 
     # ── Strategy 1: Resend (HTTP API — works on Render) ─────────
     resend_key = cfg.get("RESEND_API_KEY", "")
+    resend_failed = False
     if resend_key:
         resend_from = cfg.get("RESEND_FROM", "") or f"{from_name} <onboarding@resend.dev>"
         try:
@@ -217,16 +218,18 @@ def send_otp_email(to_email: str, otp: str) -> None:
             current_app.logger.info(f"OTP email sent to {to_email} via Resend")
             return
         except Exception as exc:
-            current_app.logger.error(f"Resend failed for {to_email}: {exc}")
-            raise RuntimeError("Could not send OTP email. Please try again later.") from exc
+            current_app.logger.error(f"Resend failed for {to_email}: {exc} — falling back to SMTP")
+            resend_failed = True
 
-    # ── Strategy 2: SMTP (local dev fallback) ───────────────────
+    # ── Strategy 2: SMTP (fallback — also works on Render with port 587) ───
     smtp_host = cfg.get("SMTP_HOST", "smtp.gmail.com")
     smtp_port = cfg.get("SMTP_PORT", 465)
     smtp_user = cfg.get("SMTP_USER", "")
     smtp_pass = cfg.get("SMTP_PASSWORD", "")
 
     if not smtp_user or not smtp_pass:
+        if resend_failed:
+            raise RuntimeError("Could not send OTP email. Please try again later.")
         current_app.logger.warning(
             "Neither RESEND_API_KEY nor SMTP credentials configured — "
             "OTP email NOT sent."

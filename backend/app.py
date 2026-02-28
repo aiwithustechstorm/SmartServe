@@ -66,6 +66,8 @@ def create_app(config_class=Config) -> Flask:
             "resend_key_prefix": resend_key[:8] + "..." if len(resend_key) > 8 else "(empty)",
             "resend_from": app.config.get("RESEND_FROM", "") or "(will default to onboarding@resend.dev)",
             "smtp_user_set": bool(smtp_user),
+            "smtp_host": app.config.get("SMTP_HOST", "(not set)"),
+            "smtp_port": app.config.get("SMTP_PORT", "(not set)"),
             "dev_otp": app.config.get("DEV_OTP", False),
             "render_url": app.config.get("RENDER_EXTERNAL_URL", "(not set)"),
         }
