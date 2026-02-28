@@ -147,11 +147,13 @@ def _send_via_resend(api_key, from_addr, to_email, subject, html, text):
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
+            "User-Agent": "SmartServe/1.0",
+            "Accept": "application/json",
         },
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
+        with urllib.request.urlopen(req, timeout=15) as resp:
             body = resp.read().decode("utf-8", errors="replace")
             current_app.logger.info(f"Resend response {resp.status}: {body}")
     except urllib.error.HTTPError as exc:

@@ -96,7 +96,7 @@ def create_app(config_class=Config) -> Flask:
             req = urllib.request.Request(
                 "https://api.resend.com/emails",
                 data=payload,
-                headers={"Authorization": f"Bearer {resend_key}", "Content-Type": "application/json"},
+                headers={"Authorization": f"Bearer {resend_key}", "Content-Type": "application/json", "User-Agent": "SmartServe/1.0", "Accept": "application/json"},
                 method="POST",
             )
             try:
