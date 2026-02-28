@@ -152,11 +152,15 @@ def _send_via_resend(api_key, from_addr, to_email, subject, html, text):
     )
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:
-            current_app.logger.info(f"Resend response: {resp.status}")
+            body = resp.read().decode("utf-8", errors="replace")
+            current_app.logger.info(f"Resend response {resp.status}: {body}")
     except urllib.error.HTTPError as exc:
         body = exc.read().decode("utf-8", errors="replace")
         current_app.logger.error(f"Resend API error {exc.code}: {body}")
-        raise RuntimeError("Could not send OTP email via Resend.") from exc
+        raise RuntimeError(f"Resend API error {exc.code}: {body}") from exc
+    except Exception as exc:
+        current_app.logger.error(f"Resend request failed: {exc}")
+        raise RuntimeError(f"Resend request failed: {exc}") from exc
 
 
 # ── Send via SMTP ───────────────────────────────────────────────────
