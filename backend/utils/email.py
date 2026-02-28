@@ -159,9 +159,10 @@ def _send_via_resend(api_key, from_addr, to_email, subject, html, text):
         raise RuntimeError("Could not send OTP email via Resend.") from exc
 
 
-# ── Send via SMTP (local dev fallback) ──────────────────────────────
+# ── Send via SMTP ───────────────────────────────────────────────────
 def _send_via_smtp(smtp_host, smtp_port, smtp_user, smtp_pass, from_addr, to_email, subject, html, text):
-    """Send email via SMTP — works locally, blocked on Render."""
+    """Send email via SMTP. Tries the configured port first, then falls back
+    to port 587 STARTTLS if the first attempt fails (Render blocks port 465)."""
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"] = from_addr
@@ -169,17 +170,31 @@ def _send_via_smtp(smtp_host, smtp_port, smtp_user, smtp_pass, from_addr, to_ema
     msg.attach(MIMEText(text, "plain", "utf-8"))
     msg.attach(MIMEText(html, "html", "utf-8"))
 
-    if smtp_port == 465:
-        with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15) as server:
-            server.login(smtp_user, smtp_pass)
-            server.sendmail(smtp_user, to_email, msg.as_string())
-    else:
-        with smtplib.SMTP(smtp_host, smtp_port, timeout=15) as server:
-            server.ehlo()
-            server.starttls()
-            server.ehlo()
-            server.login(smtp_user, smtp_pass)
-            server.sendmail(smtp_user, to_email, msg.as_string())
+    def _try_send(host, port):
+        """Attempt to send on the given port."""
+        if port == 465:
+            with smtplib.SMTP_SSL(host, port, timeout=15) as server:
+                server.login(smtp_user, smtp_pass)
+                server.sendmail(smtp_user, to_email, msg.as_string())
+        else:
+            with smtplib.SMTP(host, port, timeout=15) as server:
+                server.ehlo()
+                server.starttls()
+                server.ehlo()
+                server.login(smtp_user, smtp_pass)
+                server.sendmail(smtp_user, to_email, msg.as_string())
+
+    try:
+        _try_send(smtp_host, smtp_port)
+    except Exception as first_err:
+        # If configured port isn't 587, try 587 STARTTLS as fallback
+        if smtp_port != 587:
+            current_app.logger.warning(
+                f"SMTP port {smtp_port} failed ({first_err}), retrying on 587 STARTTLS..."
+            )
+            _try_send(smtp_host, 587)
+        else:
+            raise
 
 
 # ── Public helper ───────────────────────────────────────────────────
