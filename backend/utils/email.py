@@ -130,6 +130,40 @@ def _build_html(otp: str, logo_url: str) -> str:
 </html>"""
 
 
+# ── Send via Brevo (Sendinblue) HTTP API ────────────────────────────
+def _send_via_brevo(api_key, sender_email, sender_name, to_email, subject, html, text):
+    """Send email using Brevo REST API. Free tier: 300 emails/day, any recipient."""
+    payload = json.dumps({
+        "sender": {"name": sender_name, "email": sender_email},
+        "to": [{"email": to_email}],
+        "subject": subject,
+        "htmlContent": html,
+        "textContent": text,
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        "https://api.brevo.com/v3/smtp/email",
+        data=payload,
+        headers={
+            "api-key": api_key,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            body = resp.read().decode("utf-8", errors="replace")
+            current_app.logger.info(f"Brevo response {resp.status}: {body}")
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")
+        current_app.logger.error(f"Brevo API error {exc.code}: {body}")
+        raise RuntimeError(f"Brevo API error {exc.code}: {body}") from exc
+    except Exception as exc:
+        current_app.logger.error(f"Brevo request failed: {exc}")
+        raise RuntimeError(f"Brevo request failed: {exc}") from exc
+
+
 # ── Send via Resend HTTP API ────────────────────────────────────────
 def _send_via_resend(api_key, from_addr, to_email, subject, html, text):
     """Send email using Resend REST API (HTTPS, never blocked)."""
@@ -229,9 +263,21 @@ def send_otp_email(to_email: str, otp: str) -> None:
         f"— SmartServe Team\n"
     )
 
-    # ── Strategy 1: Resend (HTTP API — works on Render) ─────────
+    # ── Strategy 1: Brevo (HTTP API — free, sends to ANY email) ──
+    brevo_key = cfg.get("BREVO_API_KEY", "")
+    brevo_sender = cfg.get("BREVO_SENDER_EMAIL", "")
+    api_failed = False
+    if brevo_key and brevo_sender:
+        try:
+            _send_via_brevo(brevo_key, brevo_sender, from_name, to_email, subject, html, text)
+            current_app.logger.info(f"OTP email sent to {to_email} via Brevo")
+            return
+        except Exception as exc:
+            current_app.logger.error(f"Brevo failed for {to_email}: {exc} — trying Resend")
+            api_failed = True
+
+    # ── Strategy 2: Resend (HTTP API — needs verified domain for non-owner emails)
     resend_key = cfg.get("RESEND_API_KEY", "")
-    resend_failed = False
     if resend_key:
         resend_from = cfg.get("RESEND_FROM", "") or f"{from_name} <onboarding@resend.dev>"
         try:
@@ -240,16 +286,16 @@ def send_otp_email(to_email: str, otp: str) -> None:
             return
         except Exception as exc:
             current_app.logger.error(f"Resend failed for {to_email}: {exc} — falling back to SMTP")
-            resend_failed = True
+            api_failed = True
 
-    # ── Strategy 2: SMTP (fallback — also works on Render with port 587) ───
+    # ── Strategy 3: SMTP (fallback — local dev, blocked on Render free tier) ───
     smtp_host = cfg.get("SMTP_HOST", "smtp.gmail.com")
     smtp_port = cfg.get("SMTP_PORT", 465)
     smtp_user = cfg.get("SMTP_USER", "")
     smtp_pass = cfg.get("SMTP_PASSWORD", "")
 
     if not smtp_user or not smtp_pass:
-        if resend_failed:
+        if api_failed:
             raise RuntimeError("Could not send OTP email. Please try again later.")
         current_app.logger.warning(
             "Neither RESEND_API_KEY nor SMTP credentials configured — "

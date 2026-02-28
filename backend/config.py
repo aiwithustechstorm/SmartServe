@@ -25,7 +25,9 @@ class Config:
     # CORS
     CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*")
 
-    # Email — Resend (HTTP API, works on Render) or SMTP (local dev)
+    # Email — Brevo (primary), Resend (fallback), SMTP (local dev)
+    BREVO_API_KEY = os.getenv("BREVO_API_KEY", "")        # get from brevo.com (free 300/day)
+    BREVO_SENDER_EMAIL = os.getenv("BREVO_SENDER_EMAIL", "")  # verified sender on Brevo
     RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")  # get from resend.com
     RESEND_FROM = os.getenv("RESEND_FROM", "")        # e.g. SmartServe <noreply@yourdomain.com>
 

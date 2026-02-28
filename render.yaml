@@ -6,7 +6,7 @@ services:
     region: singapore   # closest to India
     rootDir: backend
     buildCommand: chmod +x build.sh && ./build.sh
-    startCommand: gunicorn app:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    startCommand: gunicorn app:application --bind 0.0.0.0:$PORT --workers 1 --timeout 120
     envVars:
       - key: PYTHON_VERSION
         value: "3.11.8"
@@ -27,7 +27,12 @@ services:
           type: web
           name: smartserve-api
           property: host    # auto-resolved to https://<service>.onrender.com
-      # Resend (HTTP email API — works on Render)
+      # Brevo (HTTP email API — primary, sends to ANY email)
+      - key: BREVO_API_KEY
+        sync: false        # get from brevo.com → SMTP & API → API Keys
+      - key: BREVO_SENDER_EMAIL
+        sync: false        # verified sender email on Brevo
+      # Resend (fallback — needs verified domain to send to any email)
       - key: RESEND_API_KEY
         sync: false        # set manually in Render dashboard
       - key: RESEND_FROM
