@@ -31,7 +31,7 @@ class Config:
 
     # SMTP fallback (local dev only — blocked on Render)
     SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
-    SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
     SMTP_USER = os.getenv("SMTP_USER", "")        # e.g. yourapp@gmail.com
     SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")  # App password (not your login password)
     SMTP_FROM_NAME = os.getenv("SMTP_FROM_NAME", "SmartServe")
