@@ -34,3 +34,14 @@ services:
         value: "SmartServe <onboarding@resend.dev>"
       - key: DEV_OTP
         value: "false"
+      # SMTP fallback (in case Resend is not configured)
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM_NAME
+        value: "SmartServe"

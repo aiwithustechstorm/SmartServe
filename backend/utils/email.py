@@ -211,7 +211,7 @@ def send_otp_email(to_email: str, otp: str) -> None:
     # ── Strategy 1: Resend (HTTP API — works on Render) ─────────
     resend_key = cfg.get("RESEND_API_KEY", "")
     if resend_key:
-        resend_from = cfg.get("RESEND_FROM", f"{from_name} <onboarding@resend.dev>")
+        resend_from = cfg.get("RESEND_FROM", "") or f"{from_name} <onboarding@resend.dev>"
         try:
             _send_via_resend(resend_key, resend_from, to_email, subject, html, text)
             current_app.logger.info(f"OTP email sent to {to_email} via Resend")

@@ -60,10 +60,13 @@ def create_app(config_class=Config) -> Flask:
     @app.route("/api/debug/email-config")
     def debug_email_config():
         resend_key = app.config.get("RESEND_API_KEY", "")
+        smtp_user = app.config.get("SMTP_USER", "")
         return {
             "resend_key_set": bool(resend_key),
             "resend_key_prefix": resend_key[:8] + "..." if len(resend_key) > 8 else "(empty)",
-            "resend_from": app.config.get("RESEND_FROM", "(not set)"),
+            "resend_from": app.config.get("RESEND_FROM", "") or "(will default to onboarding@resend.dev)",
+            "smtp_user_set": bool(smtp_user),
+            "dev_otp": app.config.get("DEV_OTP", False),
             "render_url": app.config.get("RENDER_EXTERNAL_URL", "(not set)"),
         }
 
